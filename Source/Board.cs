@@ -28,14 +28,13 @@ namespace Source
             {
                 for (int col = 0; col < columns; col++)
                 {
-                    if(board[row, col] == '')
+                    if(board[row, col] == '\0')
                     {
                         s += ".";
-                    }else
-                    {
-                        s += "\n";
                     }
+                        
                 }
+                s += "\n";
             }
             return s;
         }
