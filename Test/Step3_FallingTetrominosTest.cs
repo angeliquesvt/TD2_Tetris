@@ -7,19 +7,19 @@ namespace Test
     [TestClass]
     public class Step3_StringToMatrixTest
     {
-        //[TestMethod]
-        //public void string_to_matrix()
-        //{
-        //    string grid = "...\n...\n...\n";
+        [TestMethod]
+        public void string_to_matrix()
+        {
+            string grid = "...\n...\n...\n";
 
-        //    StringToMatrix converter = new StringToMatrix(grid);
+            //StringToMatrix converter = new StringToMatrix(grid);
 
-        //    CollectionAssert.AreEqual(converter.blocks, new char[,] {
-        //        {'.','.','.'},
-        //        {'.','.','.'},
-        //        {'.','.','.'}
-        //    });
-        //}
+            /*CollectionAssert.AreEqual(converter.blocks, new char[,] {
+                {'.','.','.'},
+                {'.','.','.'},
+                {'.','.','.'}
+            });*/
+        }
 
         //[TestMethod]
         //public void matrix_to_string()

@@ -6,11 +6,32 @@ using System.Threading.Tasks;
 
 namespace Source
 {
-    public class Piece
+    public class Piece : Grid
     {
-        string[][] Tablero;
+        char[,] Tablero;
+        int rows;
+        int cols;
+
+        //string grid = "...\n...\n...\n";
+
+        //StringToMatrix converter = new StringToMatrix(grid);
+
+        /*CollectionAssert.AreEqual(converter.blocks, new char[,] {
+            {'.','.','.'},
+            {'.','.','.'},
+            {'.','.','.'}
+        });*/
+        /*
+         * rows = piece.Split('\n');
+         * => {'...','...','...'}
+         * */
         public Piece(string piece)
         {
+            var rows = piece.Split('\n');
+            foreach(var col in rows)
+            {
+                var c = col.ToCharArray();
+            }
             //TODO
             /*
             string[][] Tablero = new string[3][];
@@ -19,15 +40,24 @@ namespace Source
                 Tablero[i] = new string[3];
             }
 
+            
+            var rows = piece.Split('\n');
+            rows.ToCharArray();*/
+    }
 
-            var rows = piece.Split('\n');*/
+    public char CellAt(int row, int col)
+        {
+            throw new NotImplementedException();
         }
 
-        public interface Grid
+        public int Columns()
         {
-            int Rows();
-            int Columns();
-            char CellAt(int row, int col);
+            throw new NotImplementedException();
+        }
+
+        public int Rows()
+        {
+            return Tablero.Length;
         }
     }
 }
