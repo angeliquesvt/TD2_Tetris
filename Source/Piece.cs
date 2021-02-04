@@ -8,56 +8,30 @@ namespace Source
 {
     public class Piece : Grid
     {
-        char[,] Tablero;
-        int rows;
-        int cols;
+        char[,] blocks;
+        int rows, cols;
 
-        //string grid = "...\n...\n...\n";
-
-        //StringToMatrix converter = new StringToMatrix(grid);
-
-        /*CollectionAssert.AreEqual(converter.blocks, new char[,] {
-            {'.','.','.'},
-            {'.','.','.'},
-            {'.','.','.'}
-        });*/
-        /*
-         * rows = piece.Split('\n');
-         * => {'...','...','...'}
-         * */
         public Piece(string piece)
         {
-            var rows = piece.Split('\n');
-            foreach(var col in rows)
-            {
-                var c = col.ToCharArray();
-            }
-            //TODO
-            /*
-            string[][] Tablero = new string[3][];
-            for (int i = 0; i < Tablero.GetLength(0); i++)
-            {
-                Tablero[i] = new string[3];
-            }
+            StringToMatrix s_m = new StringToMatrix(piece);
+            blocks = s_m.blocks;
+            rows = s_m.rows;
+            cols = s_m.cols;
+        }
 
-            
-            var rows = piece.Split('\n');
-            rows.ToCharArray();*/
-    }
-
-    public char CellAt(int row, int col)
+        public char CellAt(int row, int col)
         {
-            throw new NotImplementedException();
+            return blocks[row,  col];
         }
 
         public int Columns()
         {
-            throw new NotImplementedException();
+            return cols;
         }
 
         public int Rows()
         {
-            return Tablero.Length;
+            return rows;
         }
     }
 }

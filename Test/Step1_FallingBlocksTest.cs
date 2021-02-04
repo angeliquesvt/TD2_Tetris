@@ -11,12 +11,12 @@ namespace Test
     [TestClass]
     public class Step1_FallingBlocksTest
     {
-        Board board;
+        BoardStep1 board;
 
         [TestInitialize]
         public void SetUp()
         {
-            board = new Board(3, 3);
+            board = new BoardStep1(3, 3);
         }
 
         #region when_a_new_board_is_created

@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Source
 {
-    public class Board
+    public class BoardStep1
     {
         readonly int rows;
         readonly int columns;
-        private MovableGrid fallingBlock;
+        private Block fallingBlock;
         private char[,] board;
         private const char EMPTY = '.';
 
-        public Board(int rows, int columns)
+        public BoardStep1(int rows, int columns)
         {
             this.rows = rows;
             this.columns = columns;
@@ -37,12 +37,12 @@ namespace Source
             {
                 for (int col = 0; col < columns; col++)
                 {
-                    if(fallingBlock != null && fallingBlock.isAt(row,col))
+                    if (fallingBlock != null && fallingBlock.isAt(row, col))
                     {
                         s += fallingBlock.C;
                     }
                     else
-                        s += board[row,col];
+                        s += board[row, col];
                 }
                 s += "\n";
             }
@@ -60,29 +60,15 @@ namespace Source
         }
 
         public bool IsFallingBlock()
-        {      
+        {
             return fallingBlock != null;
         }
-        
-        public void Drop(Tetromino shape)
+
+        public void Drop(Block block)
         {
             checkIfAlreadyFalling();
-            fallingBlock = shape;
+            fallingBlock = block;
             //board[0, columns/2] = fallingBlock.C ;
-        }
-
-        public static int StartingRowOffset(Grid shape)
-        {
-            for (int r = 0; r < shape.Rows(); r++)
-            {
-                for (int c = 0; c < shape.Columns(); c++)
-                {
-                    if (shape.CellAt(r, c) != ’.’){
-                        return -r;
-                    }
-                }   
-            } 
-            return 0;
         }
 
         public void Tick()
@@ -120,8 +106,8 @@ namespace Source
 
         void checkIfAlreadyFalling()
         {
-            if(IsFallingBlock())
+            if (IsFallingBlock())
                 throw new ArgumentException("A block is already falling.");
         }
-    } 
+    }
 }

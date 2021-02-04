@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Block.cs" />
     <Compile Include="Board.cs" />
+    <Compile Include="BoardStep1.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="StringToMatrix.cs" />

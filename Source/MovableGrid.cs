@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 
 namespace Source
 {
-    public class Block : Grid
+    public class MovableGrid : Grid
     {
         public char C { get; }
         public int Row { get; set; }
         public int Col { get; set; }
+        Tetromino tetromino;
 
-        public Block(char block, int row = 0, int col = 1)
+        private MovableGrid(int col, int row, Tetromino tetromino)
         {
-            C = block;
-            this.Row = row;
-            this.Col = col;
+            this.Row = col;
+            this.Col = row;
+            this.tetromino = tetromino;
         }
 
         public Block MoveDown()

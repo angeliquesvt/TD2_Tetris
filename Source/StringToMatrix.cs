@@ -4,41 +4,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Source
-{
-    //string grid = "...\n...\n...\n";
-
-    //StringToMatrix converter = new StringToMatrix(grid);
-
-    /*CollectionAssert.AreEqual(converter.blocks, new char[,] {
-        {'.','.','.'},
-        {'.','.','.'},
-        {'.','.','.'}
-    });*/
-    /*
-     * rows = piece.Split('\n');
-     * => {'...','...','...'}
-     * */
-    class StringToMatrix
+namespace Source {
+    public class StringToMatrix
     {
-        public StringToMatrix(string piece)
+        public char[,] blocks;
+        public int rows, cols;
+
+        public StringToMatrix(string stringToConvert)
         {
-            var rows = piece.Split('\n');
-            foreach (var col in rows)
+            string[] lines = stringToConvert.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            rows = lines.Length;
+            cols = lines[0].Length;
+
+            blocks = new char[rows,  cols];
+
+            for(int i = 0; i < rows; i++)
             {
-                var c = col.ToCharArray();
-            }
-            //TODO
-            /*
-            string[][] Tablero = new string[3][];
-            for (int i = 0; i < Tablero.GetLength(0); i++)
-            {
-                Tablero[i] = new string[3];
+                char[] line = lines[i].ToCharArray();
+
+                if (line.Length != cols)
+                    throw new Exception("All rows should be same size");
+                for  (int j = 0; j < cols; j++)
+                    blocks[i,  j] = line[j];
             }
 
-            
-            var rows = piece.Split('\n');
-            rows.ToCharArray();*/
+        }
+
+        static public string Inverse(char[,] matrix, int rows, int cols)
+        {
+            string stringMatrix = "";
+            for(int col = 0; col<cols; col++) 
+            {
+                for(int row = 0; row<rows; row++)
+                {
+                    stringMatrix += matrix[col,row];
+                }
+                stringMatrix += "\n";
+            }
+
+            return stringMatrix;
         }
     }
 }
