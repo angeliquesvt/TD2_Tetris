@@ -47,6 +47,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="BoardStep1.cs" />
     <Compile Include="Grid.cs" />
+    <Compile Include="MovableGrid.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="StringToMatrix.cs" />
     <Compile Include="Tetromino.cs" />

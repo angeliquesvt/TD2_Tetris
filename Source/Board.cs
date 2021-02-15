@@ -8,11 +8,23 @@ namespace Source
 {
     public class Board
     {
-        readonly int rows;
-        readonly int columns;
+        int rows;
+        int columns;
         private MovableGrid fallingBlock;
         private char[,] board;
-        private const char EMPTY = '.';
+        public const char EMPTY = '.';
+
+        public int Rows
+        {
+            get { return this.rows; }
+            set { this.rows = value; }
+        }
+
+        public int Cols
+        {
+            get { return this.columns; }
+            set { this.columns = value; }
+        }
 
         public Board(int rows, int columns)
         {
@@ -30,6 +42,11 @@ namespace Source
             }
         }
 
+        public char CellAt(int row, int col)
+        {
+            return board[row, col];
+        }
+
         public override String ToString()
         {
             String s = "";
@@ -37,23 +54,26 @@ namespace Source
             {
                 for (int col = 0; col < columns; col++)
                 {
-                    if(fallingBlock != null && fallingBlock.isAt(row,col))
-                    {
-                        s += fallingBlock.C;
-                    }
-                    else
-                        s += board[row,col];
+                    s += StatusAt(row, col);
                 }
                 s += "\n";
             }
             return s;
         }
 
+        public void FromString(string blocks)
+        {
+            StringToMatrix sm = new StringToMatrix(blocks);
+            board = sm.blocks;
+            Rows = sm.rows;
+            Cols = sm.cols;
+        }
+
         public char StatusAt(int row, int col)
         {
             if (fallingBlock != null && fallingBlock.isAt(row, col))
             {
-                return fallingBlock.C;
+                return fallingBlock.CellAt(row, col);
             }
             else
                 return board[row, col];
@@ -67,17 +87,17 @@ namespace Source
         public void Drop(Tetromino shape)
         {
             checkIfAlreadyFalling();
-            fallingBlock = shape;
-            //board[0, columns/2] = fallingBlock.C ;
+            int row = StartingRowOffset(shape);
+            fallingBlock = new MovableGrid(shape).MoveTo(row, Cols/2 - shape.Columns()/2);
         }
 
-        public static int StartingRowOffset(Grid shape)
+        static int StartingRowOffset(Grid shape)
         {
             for (int r = 0; r < shape.Rows(); r++)
             {
                 for (int c = 0; c < shape.Columns(); c++)
                 {
-                    if (shape.CellAt(r, c) != ’.’){
+                    if (shape.CellAt(r, c) != EMPTY){
                         return -r;
                     }
                 }   
@@ -87,36 +107,75 @@ namespace Source
 
         public void Tick()
         {
-            Block test = fallingBlock.MoveDown();
+            MoveDown();
+        }
+
+        public void MoveDown()
+        {
+            if (!IsFallingBlock())
+            {
+                return;
+            }
+            MovableGrid test = fallingBlock.MoveDown();
             if (OutsideBoard(test) || HitAnotherBlock(test))
             {
                 StopFallingBlock();
             }
             else
             {
-                //board[fallingBlock.Row,  fallingBlock.Col] = EMPTY;
                 fallingBlock = test;
-                //board[fallingBlock.Row, fallingBlock.Col] = fallingBlock.C;
             }
         }
 
-        bool OutsideBoard(Block block)
+        public void MoveLeft()
         {
-            return block.Row >= rows;
+            if (!IsFallingBlock())
+                return;
+            TryMove(fallingBlock.MoveLeft());
         }
 
-        public bool HitAnotherBlock(Block block)
+        public void MoveRight()
         {
-            return board[block.Row, block.Col] != EMPTY;
+            if (!IsFallingBlock())
+                return;
+            TryMove(fallingBlock.MoveRight());
+        }
+
+        void TryMove(MovableGrid test)
+        {
+            if (!(OutsideBoard(test) || HitAnotherBlock(test)))
+                fallingBlock = test;
+        }
+
+        bool OutsideBoard(MovableGrid block)
+        {
+            return block.OutsideBoard(this);
+            //return block.Row >= rows;
+        }
+
+        public bool HitAnotherBlock(MovableGrid block)
+        {
+            return block.HitsAnotherBlock(this);
+            //return board[block.Row, block.Col] != EMPTY;
+        }
+
+        void CoptyToBoard(MovableGrid block)
+        {
+            for (int row = 0; row < Rows; row++)
+            {
+                for (int col = 0; col < Cols; col++)
+                {
+                    if (block.isAt(row, col))
+                        board[row, col] = block.CellAt(row, col);
+                }
+            }
         }
 
         public void StopFallingBlock()
         {
-            board[fallingBlock.Row, fallingBlock.Col] = fallingBlock.C;
+            CoptyToBoard(fallingBlock);
             fallingBlock = null;
         }
-
-
 
         void checkIfAlreadyFalling()
         {
