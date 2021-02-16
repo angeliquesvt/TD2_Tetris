@@ -34,8 +34,7 @@ namespace Source
 
         int ToOuterRow(int inner_row)
         {
-            int tmp = Row + inner_row;
-            return tmp; // PB ICI
+            return Row + inner_row;
         }
 
         int ToInnerCol(int outer_col)
@@ -81,7 +80,8 @@ namespace Source
         {
             int inner_row = ToInnerRow(row);
             int inner_col = ToInnerCol(col);
-            return inner_row >= 0 && inner_row < tetromino.Rows() 
+            return inner_row >= 0 
+                && inner_row < tetromino.Rows() 
                 && inner_col >= 0 
                 && inner_col < tetromino.Columns()
                 && tetromino.CellAt(inner_row, inner_col) != Board.EMPTY;
@@ -111,10 +111,15 @@ namespace Source
             {
                 for (int c = 0; c < Columns(); c++)
                 {
-                    int row = ToOuterRow(r);
-                    int col = ToOuterCol(c);
-                    if (board.CellAt(row, col) != Board.EMPTY)
-                        return true;
+                    if (tetromino.CellAt(r, c) != Board.EMPTY)
+                    {
+                        int row = ToOuterRow(r);
+                        int col = ToOuterCol(c);
+                        if (board.CellAt(row, col) != Board.EMPTY)
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
             return false;

@@ -80,15 +80,15 @@ namespace Source
         }
 
         public bool IsFallingBlock()
-        {      
+        {
             return fallingBlock != null;
         }
-        
+
         public void Drop(Tetromino shape)
         {
             checkIfAlreadyFalling();
             int row = StartingRowOffset(shape);
-            fallingBlock = new MovableGrid(shape).MoveTo(row, Cols/2 - shape.Columns()/2);
+            fallingBlock = new MovableGrid(shape).MoveTo(row, Cols / 2 - shape.Columns() / 2);
         }
 
         static int StartingRowOffset(Grid shape)
@@ -97,13 +97,29 @@ namespace Source
             {
                 for (int c = 0; c < shape.Columns(); c++)
                 {
-                    if (shape.CellAt(r, c) != EMPTY){
+                    if (shape.CellAt(r, c) != EMPTY) {
                         return -r;
                     }
-                }   
-            } 
+                }
+            }
             return 0;
         }
+
+        static int StartingColOffset(Grid shape)
+        {
+            for (int c = 0; c < shape.Columns(); c++)
+            {
+                for (int r = 0; r < shape.Rows(); r++)
+                {
+                    if (shape.CellAt(r, c) != EMPTY)
+                    {
+                        return -c;
+                    }
+                }
+            }
+            return 0;
+        }
+
 
         public void Tick()
         {
@@ -120,6 +136,7 @@ namespace Source
             if (OutsideBoard(test) || HitAnotherBlock(test))
             {
                 StopFallingBlock();
+                checkFullRows();
             }
             else
             {
@@ -150,13 +167,11 @@ namespace Source
         bool OutsideBoard(MovableGrid block)
         {
             return block.OutsideBoard(this);
-            //return block.Row >= rows;
         }
 
         public bool HitAnotherBlock(MovableGrid block)
         {
             return block.HitsAnotherBlock(this);
-            //return board[block.Row, block.Col] != EMPTY;
         }
 
         void CoptyToBoard(MovableGrid block)
@@ -177,10 +192,80 @@ namespace Source
             fallingBlock = null;
         }
 
+        void checkFullRows() {
+            bool rowFull = true;
+
+           
+            for (int row = 0; row < Rows; row++)
+            {
+                if(row == 4)
+                {
+                    int test = 0;
+                }
+                for (int col = 0; col < Cols; col++)
+                {
+                    if (board[row, col] == '.') 
+                    {
+                        rowFull = false;
+                    }
+                }
+
+                if(rowFull)
+                {
+                    removeRow(row);
+                }
+                rowFull = true;
+            }
+        }
+
+        void removeRow(int indexRowToRemove)
+        {
+            for(int row = indexRowToRemove; row >= 0; row--)
+            {
+                for(int col =0; col < Cols; col++)
+                {
+                    if(row>0)
+                    {
+                        board[row, col] = board[row - 1, col];
+                    }
+                    else
+                    {
+                        board[row, col] = '.';
+                    }
+                }
+            }
+        }
+
         void checkIfAlreadyFalling()
         {
             if(IsFallingBlock())
                 throw new ArgumentException("A block is already falling.");
         }
-    } 
+
+        public void RotateRight()
+        {
+            TryRotate(fallingBlock.RotateRight());
+        }
+        public void RotateLeft()
+        {
+            TryRotate(fallingBlock.RotateLeft());
+        }
+
+        void TryRotate(MovableGrid rotated)
+        {
+            MovableGrid[] moves = { rotated,
+            rotated.MoveLeft(),
+            rotated.MoveRight(),
+            rotated.MoveLeft().MoveLeft(),
+            rotated.MoveRight().MoveRight(),};
+            foreach (MovableGrid test in moves)
+            {
+                if (!(OutsideBoard(test) || HitAnotherBlock(test)))
+                {
+                    fallingBlock = test;
+                    return;
+                }
+            }
+        }
+    }
 }

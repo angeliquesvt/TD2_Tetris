@@ -33,5 +33,10 @@ namespace Source
         {
             return rows;
         }
+
+        public override String ToString()
+        {
+            return StringToMatrix.Inverse(blocks, rows, cols);
+        }
     }
 }

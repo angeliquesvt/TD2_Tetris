@@ -34,9 +34,9 @@ namespace Source
             this.current_orientation = (current_or + all_orientations.Count) % all_orientations.Count;
         }
 
-        public override string ToString()
+        public override String ToString()
         {
-            return this.all_orientations[this.current_orientation].ToString();
+            return all_orientations[current_orientation].ToString();
         }
 
         public Tetromino RotateRight()
@@ -84,15 +84,91 @@ namespace Source
 
         static public readonly Tetromino I_SHAPE = new Tetromino(
                 "....\n" +
-                "TTTT\n" +
+                "IIII\n" +
                 "....\n" +
                 "....\n"
             ,
-                "..T.\n" +
-                "..T.\n" +
-                "..T.\n" +
-                "..T.\n"
+                "..I.\n" +
+                "..I.\n" +
+                "..I.\n" +
+                "..I.\n"
             );
+
+        static public readonly Tetromino L_SHAPE = new Tetromino(
+         "....\n" +
+         "....\n" +
+         "...J\n" +
+         "JJJJ\n"
+     ,
+         "J...\n" +
+         "J...\n" +
+         "j...\n" +
+         "JJ..\n"
+     ,
+         "....\n" +
+         "....\n" +
+         "JJJJ\n" +
+         "J...\n"
+     ,
+         "..JJ\n" +
+         "...J\n" +
+         "...J\n" +
+         "...j\n"
+     );
+
+        static public readonly Tetromino J_SHAPE = new Tetromino(
+         "....\n" +
+         "....\n" +
+         "J...\n" +
+         "JJJJ\n"
+        ,
+         "JJ..\n" +
+         "J...\n" +
+         "J...\n" +
+         "J...\n"
+        ,
+         "....\n" +
+         "....\n" +
+         "JJJJ\n" +
+         "...J\n"
+        ,
+         "...J\n" +
+         "...J\n" +
+         "...J\n" +
+         "..JJ\n"
+        );
+
+        static public readonly Tetromino O_SHAPE = new Tetromino(
+         "....\n" +
+         ".OO.\n" +
+         ".OO.\n" +
+         "....\n"
+        );
+
+        static public readonly Tetromino S_SHAPE = new Tetromino(
+         "....\n" +
+         "....\n" +
+         ".SS.\n" +
+         "SS..\n"
+        ,
+         "....\n" +
+         "S...\n" +
+         "SS..\n" +
+         ".S..\n"
+        );
+
+
+        static public readonly Tetromino Z_SHAPE = new Tetromino(
+         "....\n" +
+         "....\n" +
+         "ZZ..\n" +
+         ".ZZ.\n"
+        ,
+         "....\n" +
+         ".Z..\n" +
+         "ZZ..\n" +
+         "Z...\n"
+        );
 
     }
 }

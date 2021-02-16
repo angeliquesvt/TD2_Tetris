@@ -33,11 +33,11 @@ namespace Source {
         static public string Inverse(char[,] matrix, int rows, int cols)
         {
             string stringMatrix = "";
-            for(int col = 0; col<cols; col++) 
+            for(int row = 0; row<rows; row++) 
             {
-                for(int row = 0; row<rows; row++)
+                for(int col = 0; col < cols; col++)
                 {
-                    stringMatrix += matrix[col,row];
+                    stringMatrix += matrix[row,col];
                 }
                 stringMatrix += "\n";
             }
